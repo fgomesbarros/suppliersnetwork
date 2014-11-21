@@ -84,35 +84,35 @@ linkNetworkNodes <- function(quantileAgencies = 0,
     suppliersNetwork <- tbl_df(suppliersNetwork)
     agenciesNetwork <- tbl_df(agenciesNetwork)
     
-    # Remove rows with weigths equal to zero and equal nodes
+    # Removes rows with weigths equal to zero and equal nodes
     suppliersNetwork <- filter(suppliersNetwork, weight > 0 & node1 != node2) 
     agenciesNetwork <- filter(agenciesNetwork, weight > 0 & node1 != node2)
        
     ### STEP 4 - Generates the GDF Files
         
-    ## Create the GDF files
+    ## Creates the GDF files
     suppliersNetFile  <- paste(aDirectory, "/", suppliersNetFile, sep="")
     file.create(suppliersNetFile)
     agenciesNetFile  <- paste(aDirectory, "/", agenciesNetFile, sep="")
     file.create(agenciesNetFile)
     
-    ## Print the node section of the GDF files
+    ## Prints the node section of GDF files
     cat("nodedef>name VARCHAR,label VARCHAR\n", file = suppliersNetFile)
     cat("nodedef>name VARCHAR,label VARCHAR\n", file = agenciesNetFile)
     
-    ## Print the contents of the node section
+    ## Prints the contents of node sections
     write.table(suppliers, file = suppliersNetFile, col.names = FALSE, 
                 append = TRUE, row.names = FALSE, quote = FALSE, sep = ",")
     write.table(agencies, file = agenciesNetFile, col.names = FALSE, 
                 append = TRUE, row.names = FALSE, quote = FALSE, sep = ",")
     
-    ## Print the edge section of the file
+    ## Prints the edge section of files
     cat("edgedef>node1 VARCHAR, node2 VARCHAR, weight DOUBLE\n", 
         file = suppliersNetFile, append = TRUE)
     cat("edgedef>node1 VARCHAR, node2 VARCHAR, weight DOUBLE\n", 
         file = agenciesNetFile, append = TRUE)
     
-    ## Print the contents of the edge section
+    ## Prints the contents of the edge section
     write.table(suppliersNetwork, file = suppliersNetFile, col.names = FALSE, 
                 append = TRUE, row.names = FALSE, quote = FALSE, sep = ",")
     write.table(agenciesNetwork, file = agenciesNetFile, col.names = FALSE, 
