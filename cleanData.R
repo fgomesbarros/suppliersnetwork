@@ -27,7 +27,6 @@ cleanData <- function(rDirectory = "data/raw",
     ## Cleans the CNPJ files 
     columnNames <- c("cnpj", "razaosocial", "nomefantasia", "cod_cnae", 
                      "cod_natjuridica")
-    
     cnpjFiles <- list.files(path = rDirectory, pattern = "*_CNPJ.csv", 
                             full.names = TRUE)
     
@@ -80,10 +79,10 @@ cleanData <- function(rDirectory = "data/raw",
                      "numero_documento_pagamento", "gestao_pagamento", 
                      "data_pagamento", "valor_pagamento")
     
-    ## Reads all the names of raw payment files 
-    paymentsFiles <- list.files(path = rDirectory, 
-                               pattern = "*_GastosDiretos.csv", 
-                               full.names = TRUE)
+    ## Reads all the names of raw payment files
+    paymentsFiles <- list.files(path = rDirectory, full.names = TRUE, 
+                                pattern = "*_GastosDiretos.csv") 
+                               
     
     ## Starts loop for reading raw payment files
     for(i in 1:length(paymentsFiles)) {
