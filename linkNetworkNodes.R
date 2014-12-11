@@ -74,6 +74,11 @@ linkNetworkNodes <- function(quantileAgencies = 0,
     agenciesNetwork <- t(paymentsMtx) %*% (paymentsMtx)
     suppliersNetwork <- paymentsMtx %*% t(paymentsMtx)
     
+    # Removing redundant information, setting to zero values in the lower 
+    # triangle of both matrixes 
+    suppliersNetwork[lower.tri(suppliersNetwork, diag = TRUE)]  <- 0
+    agenciesNetwork[lower.tri(agenciesNetwork, diag = TRUE)]  <- 0
+        
     # Transforms to a local data frame
     suppliersNetwork <- as.data.frame(as.table(suppliersNetwork), 
                                       stringsAsFactors = TRUE)
@@ -87,7 +92,11 @@ linkNetworkNodes <- function(quantileAgencies = 0,
     # Removes rows with weigths equal to zero and equal nodes
     suppliersNetwork <- filter(suppliersNetwork, weight > 0 & node1 != node2) 
     agenciesNetwork <- filter(agenciesNetwork, weight > 0 & node1 != node2)
-       
+    
+    # Order rows by weight
+    suppliersNetwork <- arrange(suppliersNetwork, desc(weight))
+    agenciesNetwork <- arrange(agenciesNetwork, desc(weight))
+        
     ### STEP 4 - Generates the GDF Files
         
     ## Creates the GDF files
